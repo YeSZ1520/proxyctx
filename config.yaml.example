@@ -1,0 +1,17 @@
+proxies:
+  - name: "my_node"
+    type: vmess
+    server: www.example.com
+    port: 443
+    uuid: 11111111-2222-3333-4444-555555555555
+    cipher: auto
+    tls: true
+    skip-cert-verify: true
+    network: ws
+    ws-opts:
+      path: /ws
+      headers:
+        Host: www.example.com
+
+choise: "my_node"
+benchmark: "https://www.google.com/generate_204"
