@@ -26,7 +26,11 @@ proxyctx --config ./config.yaml curl https://api.ipify.org
 
 `proxyctx` 兼容 Clash 的配置文件格式（使用 `proxies` 列表），并额外支持 `choise`、`benchmark` 字段。
 
-必须字段：`proxies`。  
+- proxies：代理列表
+- choise：选择的节点
+- benchmark：测试的基准网站
+
+必填字段：`proxies`。  
 
 `choise` 支持 `*` 通配符且可选。若未填写或匹配多个节点，会测速并选择最快的。
 
