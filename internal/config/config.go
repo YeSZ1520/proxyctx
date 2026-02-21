@@ -2,9 +2,9 @@ package config
 
 import (
 	"errors"
+	"fmt"
 	"os"
 	"path/filepath"
-	"sort"
 
 	"gopkg.in/yaml.v3"
 )
@@ -74,38 +74,24 @@ func Load(path string) (*Config, error) {
 }
 
 func FindDefaultConfig() (string, error) {
+	localPath := filepath.Join(".config", "proxyctx", "config.yaml")
+	if fileExists(localPath) {
+		return localPath, nil
+	}
+
+	homePath := ""
 	homeDir, _ := os.UserHomeDir()
 	if homeDir != "" {
-		path := filepath.Join(homeDir, ".config", "proxyctx", "config.yaml")
-		if fileExists(path) {
-			return path, nil
+		homePath = filepath.Join(homeDir, ".config", "proxyctx", "config.yaml")
+		if fileExists(homePath) {
+			return homePath, nil
 		}
 	}
 
-	if fileExists("config.yaml") {
-		return "config.yaml", nil
+	if homePath == "" {
+		return "", fmt.Errorf("no config found: expected %q or %q", localPath, "~/.config/proxyctx/config.yaml")
 	}
-
-	files, err := os.ReadDir(".")
-	if err != nil {
-		return "", err
-	}
-	var candidates []string
-	for _, file := range files {
-		if file.IsDir() {
-			continue
-		}
-		name := file.Name()
-		ext := filepath.Ext(name)
-		if ext == ".yaml" || ext == ".yml" {
-			candidates = append(candidates, name)
-		}
-	}
-	if len(candidates) == 0 {
-		return "", errors.New("no yaml config found")
-	}
-	sort.Strings(candidates)
-	return candidates[0], nil
+	return "", fmt.Errorf("no config found: expected %q or %q", localPath, homePath)
 }
 
 func fileExists(path string) bool {
