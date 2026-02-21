@@ -1,6 +1,6 @@
 # proxyctx
 
-`proxyctx` 是一个命令行代理包装器：启动本地 SOCKS5 代理（内嵌 Xray-core），设置代理环境变量，然后执行命令。
+`proxyctx` 是一个命令行代理包装器：启动本地代理，设置代理环境变量，然后执行命令。
 
 ## 用法
 
@@ -18,9 +18,9 @@ proxyctx --config ./config.yaml curl https://api.ipify.org
 
 未传 `--config` 时，会按以下顺序查找：
 
-1. `~/.config/proxyctx/config.yaml`
-2. `./config.yaml`
-3. 当前目录下任意一个 `*.yaml` / `*.yml`（按字典序取第一个）
+1. `./.config/proxyctx/config.yaml`
+3. `~/.config/proxyctx/config.yaml`
+
 
 ## 配置格式
 
